@@ -1,5 +1,5 @@
 "use client"
-import react, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -10,7 +10,7 @@ export default function Countdown() {
 const [duration,SetDuration] =  useState< string|number>()
 const [timeleft,SetTimeleft] =  useState(0)
 const [isactive,SetIsActive] =  useState<boolean>(false)
-const timer = useRef(null)
+const timer = useRef<NodeJS.Timeout | null>(null)
 //.............................................Timeformat..................................
 const timeformat =(time:number):string=>{
 
@@ -32,14 +32,18 @@ useEffect(()=>{
  if (isactive == true) {
   timer.current = setInterval(()=>{
   if(timeleft > 0){
-    SetTimeleft(
-      timeleft -1)
+    // SetTimeleft(
+    //   timeleft -1)
+    SetTimeleft((timeleft)=>timeleft -1)
+
   }
   else{
-   clearInterval(timer.current!)
+  clearInterval(timer.current!)
+  // SetTimeleft((timeleft)=>timeleft -1)
   }
  },1000)
- }else{
+ }
+ else{
   clearInterval(timer.current!)
  } 
 },[isactive])
@@ -57,20 +61,20 @@ const resetBtn = () => {
 };
 
   return (
-    <div className='h-[400px] w-[600px] bg-[#ffffff] rounded-[16px] flex justify-center  items-center  mt-5 ml-80  px-8 flex-col  border-[5px] border-[#ff3c3c]'>
+    <div className='h-[400px] w-[600px] bg-[#f1efef] rounded-[16px] flex justify-center  items-center  mt-5 ml-80  px-8 flex-col  border-[6px] border-[#030303]'>
        <h1 className="text-[40px] font-[800] font-sans hover:font-serif">Countdown Timer</h1>
 
        <div className="flex gap-[20px] mt-[30px]">    
        <Input className="w-[220px]" placeholder="Enter duration in seconds" type="number" onChange={(e)=>{SetDuration(Number(e.target.value))}} value={duration} />
-       <Button className="bg-[#1a1919]" onClick={()=>{setBtn()}}>Set</Button>
+       <Button className="bg-[#000000]" onClick={()=>{setBtn()}}>Set</Button>
        </div>
 
        <div className="text-[65px] gap-[20px]  font-[600]">{timeformat(timeleft)}</div>
 
       <div className="flex  gap-[20px] mt-[20px]">
-      <Button className="bg-[#1a1919]" onClick={()=>{startBtn()}}>Start</Button>
-      <Button className="bg-[#1a1919]"onClick={()=>{pauseBtn()}}>Pause</Button>
-      <Button className="bg-[#1a1919]"onClick={()=>{resetBtn()}}>Reset</Button>
+      <Button className="bg-[#000000]" onClick={()=>{startBtn()}}>Start</Button>
+      <Button className="bg-[#000000]"onClick={()=>{pauseBtn()}}>Pause</Button>
+      <Button className="bg-[#000000]"onClick={()=>{resetBtn()}}>Reset</Button>
       </div>
 
     </div>
